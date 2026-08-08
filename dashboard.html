@@ -379,3 +379,226 @@
     </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Growth Skool</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        body { background: #f4f7fe; color: #333; padding-bottom: 70px; }
+
+        /* Top Header */
+        .navbar { background: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .logo { font-size: 20px; font-weight: 800; color: #1e3a8a; }
+        .logo span { color: #0284c7; }
+        .user-name { font-weight: 600; color: #334155; }
+
+        .container { max-width: 500px; margin: 15px auto; padding: 0 15px; }
+
+        /* Tab Switching */
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* Stats Cards */
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .stat-card { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); text-align: center; }
+        .stat-card h3 { color: #0284c7; font-size: 22px; margin-top: 5px; }
+        .stat-card p { font-size: 12px; color: #64748b; font-weight: 600; }
+
+        /* Referral Box */
+        .ref-card { background: linear-gradient(135deg, #0284c7, #0369a1); color: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; }
+        .ref-title { font-size: 12px; opacity: 0.9; }
+        .ref-link-box { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.2); padding: 8px 12px; border-radius: 8px; margin-top: 8px; font-size: 13px; word-break: break-all; }
+        .copy-btn { background: white; color: #0284c7; border: none; padding: 6px 12px; border-radius: 6px; font-weight: bold; cursor: pointer; margin-left: 8px; }
+
+        /* Leaderboard Style */
+        .leaderboard-list { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+        .leader-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 15px; border-bottom: 1px solid #f1f5f9; }
+        .leader-item:last-child { border-bottom: none; }
+        .rank { font-weight: 800; font-size: 16px; width: 30px; }
+        .rank-1 { color: #eab308; }
+        .rank-2 { color: #94a3b8; }
+        .rank-3 { color: #b45309; }
+        .leader-info { flex: 1; margin-left: 10px; }
+        .leader-name { font-weight: 700; font-size: 14px; }
+        .leader-pkg { font-size: 11px; color: #64748b; }
+        .leader-earnings { font-weight: 800; color: #16a34a; font-size: 15px; }
+
+        /* Course List */
+        .course-card { background: white; border-radius: 12px; padding: 15px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+        .course-card h4 { color: #0f172a; margin-bottom: 5px; }
+        .course-card p { font-size: 12px; color: #64748b; margin-bottom: 10px; }
+        .watch-btn { width: 100%; background: #0284c7; color: white; border: none; padding: 8px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+
+        /* Bottom Navigation Bar */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 10px 0; box-shadow: 0 -2px 10px rgba(0,0,0,0.05); border-top: 1px solid #e2e8f0; }
+        .nav-item { text-align: center; color: #64748b; font-size: 11px; cursor: pointer; text-decoration: none; flex: 1; }
+        .nav-item i { font-size: 18px; display: block; margin-bottom: 3px; }
+        .nav-item.active { color: #0284c7; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="navbar">
+        <div class="logo">Growth<span>Skool</span></div>
+        <div class="user-name" id="navUserName">Loading...</div>
+    </div>
+
+    <div class="container">
+
+        <!-- TAB 1: DASHBOARD MAIN -->
+        <div id="tab-home" class="tab-content active">
+            <!-- Referral Link -->
+            <div class="ref-card">
+                <div class="ref-title">Your Affiliate Link</div>
+                <div class="ref-link-box">
+                    <span id="refLink">growthskool.com/ref/...</span>
+                    <button class="copy-btn" onclick="copyLink()">Copy</button>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <p>Today Profit</p>
+                    <h3 id="todayProfit">₹0</h3>
+                </div>
+                <div class="stat-card">
+                    <p>7 Days Profit</p>
+                    <h3 id="weekProfit">₹0</h3>
+                </div>
+                <div class="stat-card">
+                    <p>30 Days Profit</p>
+                    <h3 id="monthProfit">₹0</h3>
+                </div>
+                <div class="stat-card">
+                    <p>All Time Profit</p>
+                    <h3 id="totalProfit">₹380</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: LEADERBOARD -->
+        <div id="tab-leaderboard" class="tab-content">
+            <h3 style="margin-bottom: 15px; color: #0f172a;">🏆 Top Performers</h3>
+            <div class="leaderboard-list">
+                <div class="leader-item">
+                    <span class="rank rank-1">#1</span>
+                    <div class="leader-info">
+                        <div class="leader-name">Aman Sharma</div>
+                        <div class="leader-pkg">Master Package</div>
+                    </div>
+                    <div class="leader-earnings">₹1,45,000</div>
+                </div>
+                <div class="leader-item">
+                    <span class="rank rank-2">#2</span>
+                    <div class="leader-info">
+                        <div class="leader-name">Priya Patel</div>
+                        <div class="leader-pkg">Master Package</div>
+                    </div>
+                    <div class="leader-earnings">₹98,500</div>
+                </div>
+                <div class="leader-item">
+                    <span class="rank rank-3">#3</span>
+                    <div class="leader-info">
+                        <div class="leader-name">Rahul Verma</div>
+                        <div class="leader-pkg">Gold Package</div>
+                    </div>
+                    <div class="leader-earnings">₹64,200</div>
+                </div>
+                <div class="leader-item">
+                    <span class="rank">#4</span>
+                    <div class="leader-info">
+                        <div class="leader-name">Bhagyashree</div>
+                        <div class="leader-pkg">Gold Package</div>
+                    </div>
+                    <div class="leader-earnings">₹42,000</div>
+                </div>
+                <div class="leader-item">
+                    <span class="rank">#5</span>
+                    <div class="leader-info">
+                        <div class="leader-name" id="userLeaderName">|| SHUBHY ||</div>
+                        <div class="leader-pkg" id="userLeaderPkg">Master Package</div>
+                    </div>
+                    <div class="leader-earnings" id="userLeaderProfit">₹380</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: COURSES -->
+        <div id="tab-courses" class="tab-content">
+            <h3 style="margin-bottom: 15px; color: #0f172a;">📚 My Enrolled Courses</h3>
+            <div class="course-card">
+                <h4>1. Affiliate Marketing Mastery</h4>
+                <p>Complete step-by-step guide to earn online.</p>
+                <button class="watch-btn" onclick="alert('Starting Video Player...')">Watch Now</button>
+            </div>
+            <div class="course-card">
+                <h4>2. Instagram Organic Growth</h4>
+                <p>How to get 10k followers and generate leads.</p>
+                <button class="watch-btn" onclick="alert('Starting Video Player...')">Watch Now</button>
+            </div>
+            <div class="course-card">
+                <h4>3. Sales & Pitching Mastery</h4>
+                <p>Learn how to convert clients on WhatsApp.</p>
+                <button class="watch-btn" onclick="alert('Starting Video Player...')">Watch Now</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <div class="bottom-nav">
+        <div class="nav-item active" onclick="switchTab('home', this)">
+            <i class="fa-solid fa-house"></i>
+            Home
+        </div>
+        <div class="nav-item" onclick="switchTab('leaderboard', this)">
+            <i class="fa-solid fa-trophy"></i>
+            Leaderboard
+        </div>
+        <div class="nav-item" onclick="switchTab('courses', this)">
+            <i class="fa-solid fa-graduation-cap"></i>
+            Courses
+        </div>
+    </div>
+
+    <script>
+        // Load User Data
+        const data = JSON.parse(localStorage.getItem("growthSkoolUser")) || {
+            name: "|| SHUBHY ||",
+            phone: "9876543210",
+            package: "Master Package",
+            profit: 380
+        };
+
+        document.getElementById("navUserName").innerText = data.name;
+        document.getElementById("refLink").innerText = "growthskool.com/ref/" + data.phone;
+        document.getElementById("totalProfit").innerText = "₹" + data.profit;
+        
+        document.getElementById("userLeaderName").innerText = data.name;
+        document.getElementById("userLeaderPkg").innerText = data.package;
+        document.getElementById("userLeaderProfit").innerText = "₹" + data.profit;
+
+        function switchTab(tabName, element) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+
+            // Show selected tab
+            document.getElementById('tab-' + tabName).classList.add('active');
+            element.classList.add('active');
+        }
+
+        function copyLink() {
+            const linkText = document.getElementById("refLink").innerText;
+            navigator.clipboard.writeText(linkText);
+            alert("Referral Link Copied: " + linkText);
+        }
+    </script>
+</body>
+</html>
