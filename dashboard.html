@@ -3,601 +3,209 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Growthmarket Dashboard</title>
+    <title>Growthskool - Develop your skills</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: #f4f7fe;
-            color: #333;
-            min-height: 100vh;
-            padding-bottom: 30px;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: #f8fafc; color: #1e293b; padding-bottom: 20px; }
 
         /* Top Header */
-        .navbar {
-            background-color: #ffffff;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
+        .navbar { background: #ffffff; padding: 12px 18px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 4px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 100; }
+        .logo-container { display: flex; align-items: center; gap: 8px; }
+        .logo-text { font-size: 22px; font-weight: 800; color: #1d4ed8; letter-spacing: -0.5px; }
+        .logo-text span { color: #0284c7; }
+        .sub-logo { font-size: 9px; color: #64748b; display: block; margin-top: -4px; font-weight: 600; }
+        .nav-right { display: flex; align-items: center; gap: 14px; }
+        .user-avatar-top { width: 36px; height: 36px; border-radius: 50%; background: #e0e7ff; color: #1d4ed8; display: flex; align-items: center; justify-content: center; font-weight: bold; overflow: hidden; border: 1px solid #cbd5e1; }
+        .menu-trigger { font-size: 22px; color: #334155; cursor: pointer; }
 
-        .logo {
-            font-size: 22px;
-            font-weight: 800;
-            color: #1e3a8a;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
+        /* Sidebar Overlay & Menu Drawer */
+        .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 200; display: none; }
+        .sidebar { position: fixed; top: 0; left: -290px; width: 290px; height: 100%; background: #ffffff; z-index: 201; transition: left 0.3s ease; box-shadow: 4px 0 20px rgba(0,0,0,0.15); overflow-y: auto; }
+        .sidebar.active { left: 0; }
+        
+        .sidebar-menu { list-style: none; padding: 0; }
+        .sidebar-menu li a { display: flex; align-items: center; gap: 16px; padding: 14px 20px; color: #334155; text-decoration: none; font-weight: 600; font-size: 15px; border-bottom: 1px solid #f1f5f9; }
+        .sidebar-menu li a.active-menu { background: #3b82f6; color: #ffffff; }
+        .sidebar-menu li a.active-menu i { color: #ffffff; }
+        .sidebar-menu li a i { font-size: 18px; width: 22px; text-align: center; color: #475569; }
 
-        .logo span {
-            color: #0284c7;
-        }
-
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .user-avatar-mini {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #0284c7;
-        }
-
-        .menu-icon {
-            font-size: 22px;
-            color: #333;
-            cursor: pointer;
-        }
-
-        /* Dashboard Container */
-        .container {
-            max-width: 500px;
-            margin: 20px auto;
-            padding: 0 15px;
-        }
-
-        /* Profile Card */
-        .profile-card {
-            background: linear-gradient(135deg, #e0f2fe 0%, #ffffff 100%);
-            border-radius: 16px;
-            padding: 20px;
-            position: relative;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            margin-bottom: 20px;
-            border: 1px solid #bae6fd;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .package-badge {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background-color: #0284c7;
-            color: #fff;
-            font-size: 11px;
-            font-weight: 700;
-            padding: 4px 10px;
-            border-radius: 4px;
-        }
-
-        .profile-img-container {
-            position: relative;
-        }
-
-        .profile-img {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid #0284c7;
-        }
-
-        .user-details h2 {
-            font-size: 18px;
-            font-weight: 700;
-            color: #0f172a;
-            margin-bottom: 4px;
-        }
-
-        .user-id {
-            font-size: 13px;
-            color: #64748b;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .copy-icon {
-            cursor: pointer;
-            color: #0284c7;
-        }
-
-        /* Profit Cards Grid */
-        .cards-list {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-        }
-
-        .profit-card {
-            background: linear-gradient(180deg, #0284c7 0%, #0369a1 100%);
-            color: #ffffff;
-            border-radius: 12px;
-            padding: 16px 20px;
-            box-shadow: 0 4px 10px rgba(2, 132, 199, 0.25);
-            transition: transform 0.2s;
-        }
-
-        .profit-card:active {
-            transform: scale(0.98);
-        }
-
-        .amount {
-            font-size: 28px;
-            font-weight: 800;
-            margin-bottom: 4px;
-        }
-
-        .title {
-            font-size: 14px;
-            font-weight: 600;
-            opacity: 0.9;
-            margin-bottom: 12px;
-        }
-
-        .card-footer {
-            border-top: 1px solid rgba(255,255,255,0.2);
-            padding-top: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 12px;
-            opacity: 0.85;
-            text-decoration: none;
-            color: #fff;
-        }
-
-        /* Phone Login Modal */
-        .login-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(5px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 100;
-            padding: 20px;
-        }
-
-        .login-box {
-            background: #fff;
-            width: 100%;
-            max-width: 380px;
-            padding: 25px;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            text-align: center;
-        }
-
-        .login-box h3 {
-            font-size: 20px;
-            color: #0f172a;
-            margin-bottom: 8px;
-        }
-
-        .login-box p {
-            font-size: 13px;
-            color: #64748b;
-            margin-bottom: 20px;
-        }
-
-        .input-group {
-            margin-bottom: 15px;
-            text-align: left;
-        }
-
-        .input-group label {
-            font-size: 12px;
-            font-weight: 600;
-            color: #334155;
-            display: block;
-            margin-bottom: 6px;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 12px 14px;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            font-size: 14px;
-            outline: none;
-        }
-
-        .input-group input:focus {
-            border-color: #0284c7;
-        }
-
-        .login-btn {
-            width: 100%;
-            background-color: #0284c7;
-            color: white;
-            border: none;
-            padding: 12px;
-            font-size: 15px;
-            font-weight: 700;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-
-        .error-msg {
-            color: #ef4444;
-            font-size: 12px;
-            margin-top: 10px;
-            display: none;
-        }
-    </style>
-</head>
-<body>
-
-    <!-- Phone Login Gatekeeper Modal -->
-    <div class="login-overlay" id="loginModal">
-        <div class="login-box">
-            <h3>Login to Dashboard</h3>
-            <p>Apna registered Mobile Number dalein (Course buy karne ke baad hi login hoga)</p>
-            <div class="input-group">
-                <label>Mobile Number</label>
-                <input type="tel" id="mobileNumber" placeholder="10-digit phone number" maxlength="10">
-            </div>
-            <button class="login-btn" onclick="attemptLogin()">Login Now</button>
-            <p class="error-msg" id="errorMsg">⚠️ Yeh number course purchased list mein nahi hai! Pehle course buy karein.</p>
-        </div>
-    </div>
-
-    <!-- Top Navigation -->
-    <nav class="navbar">
-        <div class="logo">
-            Growth<span>Skool</span>
-        </div>
-        <div class="nav-right">
-            <img src="https://via.placeholder.com/150" alt="User" class="user-avatar-mini" id="navAvatar">
-            <i class="fa-solid fa-bars menu-icon"></i>
-        </div>
-    </nav>
-
-    <!-- Main Container -->
-    <div class="container">
-        <!-- User Profile Header Card -->
-        <div class="profile-card">
-            <span class="package-badge" id="userPackage">Master Package</span>
-            <div class="profile-img-container">
-                <img src="https://via.placeholder.com/150" alt="Profile" class="profile-img" id="userPhoto">
-            </div>
-            <div class="user-details">
-                <h2 id="userName">|| SHUBHY ||</h2>
-                <div class="user-id">
-                    User ID : <span id="userId">GS019023</span>
-                    <i class="fa-regular fa-copy copy-icon" onclick="copyID()"></i>
-                </div>
-            </div>
-        </div>
-
-        <!-- Profit Cards List -->
-        <div class="cards-list">
-            <!-- Today's Profit -->
-            <div class="profit-card">
-                <div class="amount">₹ <span id="todayProfit">0</span></div>
-                <div class="title">Today's Profit</div>
-                <a href="#" class="card-footer">
-                    <span>Click here to view detail(s)</span>
-                    <i class="fa-solid fa-chevron-right"></i>
-                </a>
-            </div>
-
-            <!-- Last 7 Days Profit -->
-            <div class="profit-card">
-                <div class="amount">₹ <span id="weekProfit">0</span></div>
-                <div class="title">Last 7 Days Profit</div>
-                <a href="#" class="card-footer">
-                    <span>Click here to view detail(s)</span>
-                    <i class="fa-solid fa-chevron-right"></i>
-                </a>
-            </div>
-
-            <!-- Last 30 Days Profit -->
-            <div class="profit-card">
-                <div class="amount">₹ <span id="monthProfit">0</span></div>
-                <div class="title">Last 30 Days Profit</div>
-                <a href="#" class="card-footer">
-                    <span>Click here to view detail(s)</span>
-                    <i class="fa-solid fa-chevron-right"></i>
-                </a>
-            </div>
-
-            <!-- All Time Profit -->
-            <div class="profit-card">
-                <div class="amount">₹ <span id="totalProfit">380</span></div>
-                <div class="title">All Time Profit</div>
-                <a href="#" class="card-footer">
-                    <span>Click here to view detail(s)</span>
-                    <i class="fa-solid fa-chevron-right"></i>
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Sample Database: Registered Users who bought course
-        const activePaidUsers = {
-            "9876543210": { name: "|| SHUBHY ||", userId: "GS019023", package: "Master Package", profit: "380", photo: "https://via.placeholder.com/150" },
-            "8888888888": { name: "Bhagyashree", userId: "GS019024", package: "Gold Package", profit: "1200", photo: "https://via.placeholder.com/150" }
-        };
-
-        function attemptLogin() {
-            const phoneInput = document.getElementById("mobileNumber").value.trim();
-            const errorMsg = document.getElementById("errorMsg");
-
-            if (activePaidUsers[phoneInput]) {
-                const user = activePaidUsers[phoneInput];
-                document.getElementById("userName").innerText = user.name;
-                document.getElementById("userId").innerText = user.userId;
-                document.getElementById("userPackage").innerText = user.package;
-                document.getElementById("totalProfit").innerText = user.profit;
-                document.getElementById("loginModal").style.display = "none";
-            } else {
-                errorMsg.style.display = "block";
-            }
-        }
-
-        function copyID() {
-            const idText = document.getElementById("userId").innerText;
-            navigator.clipboard.writeText(idText);
-            alert("User ID Copied: " + idText);
-        }
-    </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Growth Skool</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
-        body { background: #f4f7fe; color: #333; padding-bottom: 70px; }
-
-        /* Top Header */
-        .navbar { background: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .logo { font-size: 20px; font-weight: 800; color: #1e3a8a; }
-        .logo span { color: #0284c7; }
-        .user-name { font-weight: 600; color: #334155; }
-
-        .container { max-width: 500px; margin: 15px auto; padding: 0 15px; }
-
-        /* Tab Switching */
+        /* Main Container */
+        .container { max-width: 480px; margin: 15px auto; padding: 0 15px; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
-        /* Stats Cards */
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        .stat-card { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); text-align: center; }
-        .stat-card h3 { color: #0284c7; font-size: 22px; margin-top: 5px; }
-        .stat-card p { font-size: 12px; color: #64748b; font-weight: 600; }
+        /* Profile Header Card */
+        .profile-card { background: #ffffff; border-radius: 12px; padding: 16px; position: relative; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 15px; border: 1px solid #e2e8f0; display: flex; align-items: center; gap: 15px; }
+        .package-badge { position: absolute; top: 12px; right: 12px; background-color: #2563eb; color: #fff; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 4px; }
+        .profile-img { width: 55px; height: 55px; border-radius: 50%; background: #2563eb; color: white; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+        .user-details h2 { font-size: 16px; font-weight: 700; color: #0f172a; margin-bottom: 2px; }
+        .user-id { font-size: 12px; color: #64748b; }
 
-        /* Referral Box */
-        .ref-card { background: linear-gradient(135deg, #0284c7, #0369a1); color: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; }
-        .ref-title { font-size: 12px; opacity: 0.9; }
-        .ref-link-box { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.2); padding: 8px 12px; border-radius: 8px; margin-top: 8px; font-size: 13px; word-break: break-all; }
-        .copy-btn { background: white; color: #0284c7; border: none; padding: 6px 12px; border-radius: 6px; font-weight: bold; cursor: pointer; margin-left: 8px; }
+        /* Profit Cards List */
+        .cards-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 15px; }
+        .profit-card { background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); color: #ffffff; border-radius: 12px; padding: 16px; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); }
+        .amount { font-size: 26px; font-weight: 800; margin-bottom: 2px; }
+        .title { font-size: 13px; font-weight: 600; opacity: 0.9; margin-bottom: 10px; }
+        .card-footer { border-top: 1px solid rgba(255,255,255,0.2); padding-top: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 11px; opacity: 0.9; cursor: pointer; }
 
-        /* Leaderboard Style */
-        .leaderboard-list { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+        /* Course Cards (Original GrowthSkool Style) */
+        .course-card { background: #ffffff; border-radius: 12px; border: 1px solid #e2e8f0; overflow: hidden; margin-bottom: 15px; box-shadow: 0 2px 6px rgba(0,0,0,0.04); }
+        .course-banner { background: #0f172a; color: white; padding: 30px 20px; text-align: center; position: relative; }
+        .course-banner h2 { font-size: 22px; font-weight: 800; letter-spacing: 1px; color: #38bdf8; }
+        .course-body { padding: 15px; }
+        .progress-bar-bg { background: #e2e8f0; height: 8px; border-radius: 4px; overflow: hidden; margin-bottom: 8px; }
+        .progress-bar-fill { background: #2563eb; height: 100%; width: 9%; }
+        .progress-text { font-size: 12px; color: #64748b; font-weight: 600; margin-bottom: 12px; }
+        .course-title { font-size: 15px; font-weight: 700; color: #0f172a; margin-bottom: 12px; }
+        .btn-continue { width: 100%; background: #2563eb; color: white; border: none; padding: 10px; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; transition: 0.2s; }
+
+        /* Leaderboard */
+        .leaderboard-list { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #e2e8f0; }
         .leader-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 15px; border-bottom: 1px solid #f1f5f9; }
-        .leader-item:last-child { border-bottom: none; }
-        .rank { font-weight: 800; font-size: 16px; width: 30px; }
-        .rank-1 { color: #eab308; }
-        .rank-2 { color: #94a3b8; }
-        .rank-3 { color: #b45309; }
+        .rank { font-weight: 800; font-size: 15px; width: 30px; }
+        .rank-1 { color: #eab308; } .rank-2 { color: #94a3b8; } .rank-3 { color: #b45309; }
         .leader-info { flex: 1; margin-left: 10px; }
         .leader-name { font-weight: 700; font-size: 14px; }
-        .leader-pkg { font-size: 11px; color: #64748b; }
-        .leader-earnings { font-weight: 800; color: #16a34a; font-size: 15px; }
-
-        /* Course List */
-        .course-card { background: white; border-radius: 12px; padding: 15px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
-        .course-card h4 { color: #0f172a; margin-bottom: 5px; }
-        .course-card p { font-size: 12px; color: #64748b; margin-bottom: 10px; }
-        .watch-btn { width: 100%; background: #0284c7; color: white; border: none; padding: 8px; border-radius: 6px; font-weight: bold; cursor: pointer; }
-
-        /* Bottom Navigation Bar */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 10px 0; box-shadow: 0 -2px 10px rgba(0,0,0,0.05); border-top: 1px solid #e2e8f0; }
-        .nav-item { text-align: center; color: #64748b; font-size: 11px; cursor: pointer; text-decoration: none; flex: 1; }
-        .nav-item i { font-size: 18px; display: block; margin-bottom: 3px; }
-        .nav-item.active { color: #0284c7; font-weight: bold; }
+        .leader-earnings { font-weight: 800; color: #16a34a; font-size: 14px; }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
-    <div class="navbar">
-        <div class="logo">Growth<span>Skool</span></div>
-        <div class="user-name" id="navUserName">Loading...</div>
+    <!-- Left Sidebar Menu (Matches Screenshot Structure) -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMenu()"></div>
+    <div class="sidebar" id="sidebar">
+        <ul class="sidebar-menu">
+            <li><a href="#" id="menu-courses" class="active-menu" onclick="switchTab('courses', this)"><i class="fa-solid fa-book-open"></i> My Courses</a></li>
+            <li><a href="#" id="menu-dashboard" onclick="switchTab('home', this)"><i class="fa-solid fa-house"></i> Dashboard</a></li>
+            <li><a href="#" onclick="alert('Profile Settings')"><i class="fa-solid fa-user"></i> Profile</a></li>
+            <li><a href="#" onclick="alert('KYC Verification Status: Approved')"><i class="fa-solid fa-id-card"></i> KYC</a></li>
+            <li><a href="#" onclick="alert('Upgrade Package Available')"><i class="fa-solid fa-arrow-up"></i> Upgrade</a></li>
+            <li><a href="#" onclick="copyLink()"><i class="fa-solid fa-link"></i> Affiliate Link</a></li>
+            <li><a href="#" id="menu-leaderboard" onclick="switchTab('leaderboard', this)"><i class="fa-solid fa-trophy"></i> Leaderboard</a></li>
+            <li><a href="#" onclick="alert('Payout Status: Up to date')"><i class="fa-solid fa-money-bill-wave"></i> Payouts</a></li>
+            <li><a href="#" onclick="alert('Withdrawal Request Sent!')"><i class="fa-solid fa-hand-holding-dollar"></i> Withdrawal Request</a></li>
+            <li><a href="#" onclick="alert('My Affiliates Count: 12')"><i class="fa-solid fa-users"></i> My Affiliates</a></li>
+            <li><a href="#" onclick="alert('Traffic Stats Loaded')"><i class="fa-solid fa-traffic-light"></i> Traffic</a></li>
+            <li><a href="#" onclick="alert('Opening Social Handles...')"><i class="fa-solid fa-share-nodes"></i> Social Media Handles</a></li>
+            <li><a href="tel:+919876543210"><i class="fa-solid fa-phone"></i> Support No.</a></li>
+        </ul>
     </div>
+
+    <!-- Top Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo-container">
+            <div>
+                <div class="logo-text">Growth<span>Skool</span></div>
+                <span class="sub-logo">Develop your skills</span>
+            </div>
+        </div>
+        <div class="nav-right">
+            <div class="user-avatar-top">
+                <i class="fa-solid fa-user"></i>
+            </div>
+            <i class="fa-solid fa-bars menu-trigger" onclick="toggleMenu()"></i>
+        </div>
+    </nav>
 
     <div class="container">
 
-        <!-- TAB 1: DASHBOARD MAIN -->
-        <div id="tab-home" class="tab-content active">
-            <!-- Referral Link -->
-            <div class="ref-card">
-                <div class="ref-title">Your Affiliate Link</div>
-                <div class="ref-link-box">
-                    <span id="refLink">growthskool.com/ref/...</span>
-                    <button class="copy-btn" onclick="copyLink()">Copy</button>
+        <!-- TAB 1: DASHBOARD / HOME -->
+        <div id="tab-home" class="tab-content">
+            <div class="profile-card">
+                <span class="package-badge" id="userPackage">Master Package</span>
+                <div class="profile-img"><i class="fa-solid fa-user"></i></div>
+                <div class="user-details">
+                    <h2 id="userName">|| SHUBHY ||</h2>
+                    <div class="user-id">User ID : <span id="userId">GS019023</span></div>
                 </div>
             </div>
 
-            <!-- Stats -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <p>Today Profit</p>
-                    <h3 id="todayProfit">₹0</h3>
+            <div class="cards-list">
+                <div class="profit-card"><div class="amount">₹ 0</div><div class="title">Today's Profit</div><div class="card-footer"><span>Click here for details</span><i class="fa-solid fa-chevron-right"></i></div></div>
+                <div class="profit-card"><div class="amount">₹ 0</div><div class="title">Last 7 Days Profit</div><div class="card-footer"><span>Click here for details</span><i class="fa-solid fa-chevron-right"></i></div></div>
+                <div class="profit-card"><div class="amount">₹ 0</div><div class="title">Last 30 Days Profit</div><div class="card-footer"><span>Click here for details</span><i class="fa-solid fa-chevron-right"></i></div></div>
+                <div class="profit-card"><div class="amount">₹ 380</div><div class="title">All Time Profit</div><div class="card-footer"><span>Click here for details</span><i class="fa-solid fa-chevron-right"></i></div></div>
+            </div>
+        </div>
+
+        <!-- TAB 2: MY COURSES (Default View as per screenshot) -->
+        <div id="tab-courses" class="tab-content active">
+            <div class="course-card">
+                <div class="course-banner">
+                    <h2>BASIC COURSE</h2>
+                    <p style="font-size:11px; opacity:0.8;">Learn From Basic to Advance</p>
                 </div>
-                <div class="stat-card">
-                    <p>7 Days Profit</p>
-                    <h3 id="weekProfit">₹0</h3>
+                <div class="course-body">
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill"></div>
+                    </div>
+                    <div class="progress-text">9% Completed</div>
+                    <div class="course-title">BASIC COURSE</div>
+                    <button class="btn-continue" onclick="alert('Starting Course Video...')">Continue Learning</button>
                 </div>
-                <div class="stat-card">
-                    <p>30 Days Profit</p>
-                    <h3 id="monthProfit">₹0</h3>
+            </div>
+
+            <div class="course-card">
+                <div class="course-banner" style="background:#0284c7;">
+                    <h2>LEAD GENERATION</h2>
+                    <p style="font-size:11px; opacity:0.8;">Master Lead Generation Skills</p>
                 </div>
-                <div class="stat-card">
-                    <p>All Time Profit</p>
-                    <h3 id="totalProfit">₹380</h3>
+                <div class="course-body">
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" style="width: 0%;"></div>
+                    </div>
+                    <div class="progress-text">0% Completed</div>
+                    <div class="course-title">LEAD GENERATION COURSE</div>
+                    <button class="btn-continue" onclick="alert('Starting Lead Generation Video...')">Start Learning</button>
                 </div>
             </div>
         </div>
 
-        <!-- TAB 2: LEADERBOARD -->
+        <!-- TAB 3: LEADERBOARD -->
         <div id="tab-leaderboard" class="tab-content">
-            <h3 style="margin-bottom: 15px; color: #0f172a;">🏆 Top Performers</h3>
+            <h3 style="margin-bottom: 12px; color: #0f172a; font-size: 16px;">🏆 Top Performers</h3>
             <div class="leaderboard-list">
-                <div class="leader-item">
-                    <span class="rank rank-1">#1</span>
-                    <div class="leader-info">
-                        <div class="leader-name">Aman Sharma</div>
-                        <div class="leader-pkg">Master Package</div>
-                    </div>
-                    <div class="leader-earnings">₹1,45,000</div>
-                </div>
-                <div class="leader-item">
-                    <span class="rank rank-2">#2</span>
-                    <div class="leader-info">
-                        <div class="leader-name">Priya Patel</div>
-                        <div class="leader-pkg">Master Package</div>
-                    </div>
-                    <div class="leader-earnings">₹98,500</div>
-                </div>
-                <div class="leader-item">
-                    <span class="rank rank-3">#3</span>
-                    <div class="leader-info">
-                        <div class="leader-name">Rahul Verma</div>
-                        <div class="leader-pkg">Gold Package</div>
-                    </div>
-                    <div class="leader-earnings">₹64,200</div>
-                </div>
-                <div class="leader-item">
-                    <span class="rank">#4</span>
-                    <div class="leader-info">
-                        <div class="leader-name">Bhagyashree</div>
-                        <div class="leader-pkg">Gold Package</div>
-                    </div>
-                    <div class="leader-earnings">₹42,000</div>
-                </div>
-                <div class="leader-item">
-                    <span class="rank">#5</span>
-                    <div class="leader-info">
-                        <div class="leader-name" id="userLeaderName">|| SHUBHY ||</div>
-                        <div class="leader-pkg" id="userLeaderPkg">Master Package</div>
-                    </div>
-                    <div class="leader-earnings" id="userLeaderProfit">₹380</div>
-                </div>
+                <div class="leader-item"><span class="rank rank-1">#1</span><div class="leader-info"><div class="leader-name">Aman Sharma</div><div style="font-size:11px; color:#64748b;">Master Package</div></div><div class="leader-earnings">₹1,45,000</div></div>
+                <div class="leader-item"><span class="rank rank-2">#2</span><div class="leader-info"><div class="leader-name">Priya Patel</div><div style="font-size:11px; color:#64748b;">Master Package</div></div><div class="leader-earnings">₹98,500</div></div>
+                <div class="leader-item"><span class="rank rank-3">#3</span><div class="leader-info"><div class="leader-name">Rahul Verma</div><div style="font-size:11px; color:#64748b;">Gold Package</div></div><div class="leader-earnings">₹64,200</div></div>
+                <div class="leader-item"><span class="rank">#4</span><div class="leader-info"><div class="leader-name">Bhagyashree</div><div style="font-size:11px; color:#64748b;">Gold Package</div></div><div class="leader-earnings">₹42,000</div></div>
+                <div class="leader-item"><span class="rank">#5</span><div class="leader-info"><div class="leader-name">|| SHUBHY ||</div><div style="font-size:11px; color:#64748b;">Master Package</div></div><div class="leader-earnings">₹380</div></div>
             </div>
         </div>
 
-        <!-- TAB 3: COURSES -->
-        <div id="tab-courses" class="tab-content">
-            <h3 style="margin-bottom: 15px; color: #0f172a;">📚 My Enrolled Courses</h3>
-            <div class="course-card">
-                <h4>1. Affiliate Marketing Mastery</h4>
-                <p>Complete step-by-step guide to earn online.</p>
-                <button class="watch-btn" onclick="alert('Starting Video Player...')">Watch Now</button>
-            </div>
-            <div class="course-card">
-                <h4>2. Instagram Organic Growth</h4>
-                <p>How to get 10k followers and generate leads.</p>
-                <button class="watch-btn" onclick="alert('Starting Video Player...')">Watch Now</button>
-            </div>
-            <div class="course-card">
-                <h4>3. Sales & Pitching Mastery</h4>
-                <p>Learn how to convert clients on WhatsApp.</p>
-                <button class="watch-btn" onclick="alert('Starting Video Player...')">Watch Now</button>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- Bottom Navigation Bar -->
-    <div class="bottom-nav">
-        <div class="nav-item active" onclick="switchTab('home', this)">
-            <i class="fa-solid fa-house"></i>
-            Home
-        </div>
-        <div class="nav-item" onclick="switchTab('leaderboard', this)">
-            <i class="fa-solid fa-trophy"></i>
-            Leaderboard
-        </div>
-        <div class="nav-item" onclick="switchTab('courses', this)">
-            <i class="fa-solid fa-graduation-cap"></i>
-            Courses
-        </div>
     </div>
 
     <script>
-        // Load User Data
-        const data = JSON.parse(localStorage.getItem("growthSkoolUser")) || {
-            name: "|| SHUBHY ||",
-            phone: "9876543210",
-            package: "Master Package",
-            profit: 380
-        };
-
-        document.getElementById("navUserName").innerText = data.name;
-        document.getElementById("refLink").innerText = "growthskool.com/ref/" + data.phone;
-        document.getElementById("totalProfit").innerText = "₹" + data.profit;
-        
-        document.getElementById("userLeaderName").innerText = data.name;
-        document.getElementById("userLeaderPkg").innerText = data.package;
-        document.getElementById("userLeaderProfit").innerText = "₹" + data.profit;
+        function toggleMenu() {
+            const sidebar = document.getElementById("sidebar");
+            const overlay = document.getElementById("sidebarOverlay");
+            if (sidebar.classList.contains("active")) {
+                sidebar.classList.remove("active");
+                overlay.style.display = "none";
+            } else {
+                sidebar.classList.add("active");
+                overlay.style.display = "block";
+            }
+        }
 
         function switchTab(tabName, element) {
-            // Hide all tabs
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+            document.querySelectorAll('.sidebar-menu a').forEach(item => item.classList.remove('active-menu'));
 
-            // Show selected tab
             document.getElementById('tab-' + tabName).classList.add('active');
-            element.classList.add('active');
+            if(element) {
+                element.classList.add('active-menu');
+            }
+            
+            // Drawer Close
+            document.getElementById("sidebar").classList.remove("active");
+            document.getElementById("sidebarOverlay").style.display = "none";
         }
 
         function copyLink() {
-            const linkText = document.getElementById("refLink").innerText;
-            navigator.clipboard.writeText(linkText);
-            alert("Referral Link Copied: " + linkText);
+            navigator.clipboard.writeText("https://growthskool.org/ref/GS019023");
+            alert("Affiliate Link Copied!");
         }
     </script>
 </body>
