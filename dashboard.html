@@ -9,7 +9,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background: #f8fafc; color: #1e293b; padding-bottom: 20px; }
 
-        /* Top Header */
+        /* Navigation Bar */
         .navbar { background: #ffffff; padding: 12px 18px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 4px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 100; }
         .logo-container { display: flex; align-items: center; gap: 8px; }
         .logo-text { font-size: 22px; font-weight: 800; color: #1d4ed8; letter-spacing: -0.5px; }
@@ -25,74 +25,74 @@
         .sidebar.active { left: 0; }
         
         .sidebar-menu { list-style: none; padding: 0; }
-        .sidebar-menu li a { display: flex; align-items: center; gap: 16px; padding: 14px 20px; color: #334155; text-decoration: none; font-weight: 600; font-size: 15px; border-bottom: 1px solid #f1f5f9; }
-        .sidebar-menu li a.active-menu { background: #3b82f6; color: #ffffff; }
+        .sidebar-menu li a { display: flex; align-items: center; gap: 16px; padding: 14px 20px; color: #334155; text-decoration: none; font-weight: 600; font-size: 15px; border-bottom: 1px solid #f1f5f9; cursor: pointer; }
+        .sidebar-menu li a.active-menu { background: #2563eb; color: #ffffff; }
         .sidebar-menu li a.active-menu i { color: #ffffff; }
-        .sidebar-menu li a i { font-size: 18px; width: 22px; text-align: center; color: #475569; }
+        .sidebar-menu li a i { font-size: 18px; width: 22px; text-align: center; color: #2563eb; }
 
         /* Main Container */
         .container { max-width: 480px; margin: 15px auto; padding: 0 15px; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
-        /* Profile Header Card */
+        /* Cards */
         .profile-card { background: #ffffff; border-radius: 12px; padding: 16px; position: relative; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 15px; border: 1px solid #e2e8f0; display: flex; align-items: center; gap: 15px; }
         .package-badge { position: absolute; top: 12px; right: 12px; background-color: #2563eb; color: #fff; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 4px; }
         .profile-img { width: 55px; height: 55px; border-radius: 50%; background: #2563eb; color: white; display: flex; align-items: center; justify-content: center; font-size: 22px; }
         .user-details h2 { font-size: 16px; font-weight: 700; color: #0f172a; margin-bottom: 2px; }
         .user-id { font-size: 12px; color: #64748b; }
 
-        /* Profit Cards List */
         .cards-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 15px; }
         .profit-card { background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); color: #ffffff; border-radius: 12px; padding: 16px; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); }
         .amount { font-size: 26px; font-weight: 800; margin-bottom: 2px; }
         .title { font-size: 13px; font-weight: 600; opacity: 0.9; margin-bottom: 10px; }
-        .card-footer { border-top: 1px solid rgba(255,255,255,0.2); padding-top: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 11px; opacity: 0.9; cursor: pointer; }
+        .card-footer { border-top: 1px solid rgba(255,255,255,0.2); padding-top: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 11px; opacity: 0.9; }
 
-        /* Course Cards (Original GrowthSkool Style) */
+        /* Common Page Boxes */
+        .info-box { background: white; border-radius: 12px; padding: 20px; border: 1px solid #e2e8f0; box-shadow: 0 2px 6px rgba(0,0,0,0.04); margin-bottom: 15px; }
+        .info-box h3 { font-size: 16px; color: #0f172a; margin-bottom: 12px; border-bottom: 2px solid #2563eb; padding-bottom: 6px; display: inline-block; }
+
+        /* Course Cards */
         .course-card { background: #ffffff; border-radius: 12px; border: 1px solid #e2e8f0; overflow: hidden; margin-bottom: 15px; box-shadow: 0 2px 6px rgba(0,0,0,0.04); }
-        .course-banner { background: #0f172a; color: white; padding: 30px 20px; text-align: center; position: relative; }
-        .course-banner h2 { font-size: 22px; font-weight: 800; letter-spacing: 1px; color: #38bdf8; }
+        .course-banner { background: #0f172a; color: white; padding: 25px 20px; text-align: center; }
+        .course-banner h2 { font-size: 20px; font-weight: 800; color: #38bdf8; }
         .course-body { padding: 15px; }
-        .progress-bar-bg { background: #e2e8f0; height: 8px; border-radius: 4px; overflow: hidden; margin-bottom: 8px; }
-        .progress-bar-fill { background: #2563eb; height: 100%; width: 9%; }
-        .progress-text { font-size: 12px; color: #64748b; font-weight: 600; margin-bottom: 12px; }
-        .course-title { font-size: 15px; font-weight: 700; color: #0f172a; margin-bottom: 12px; }
-        .btn-continue { width: 100%; background: #2563eb; color: white; border: none; padding: 10px; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; transition: 0.2s; }
+        .btn-continue { width: 100%; background: #2563eb; color: white; border: none; padding: 10px; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; }
 
-        /* Leaderboard */
-        .leaderboard-list { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #e2e8f0; }
-        .leader-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 15px; border-bottom: 1px solid #f1f5f9; }
-        .rank { font-weight: 800; font-size: 15px; width: 30px; }
-        .rank-1 { color: #eab308; } .rank-2 { color: #94a3b8; } .rank-3 { color: #b45309; }
-        .leader-info { flex: 1; margin-left: 10px; }
-        .leader-name { font-weight: 700; font-size: 14px; }
-        .leader-earnings { font-weight: 800; color: #16a34a; font-size: 14px; }
+        /* Copy Input Box */
+        .copy-box { display: flex; gap: 8px; margin-top: 10px; }
+        .copy-input { flex: 1; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; background: #f1f5f9; }
+        .btn-copy { background: #2563eb; color: white; border: none; padding: 0 15px; border-radius: 6px; font-weight: 600; cursor: pointer; }
+
+        /* Toast Popup */
+        #toast { visibility: hidden; min-width: 200px; background-color: #0f172a; color: #fff; text-align: center; border-radius: 8px; padding: 12px; position: fixed; z-index: 300; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 13px; font-weight: 600; }
+        #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
+        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
+        @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
     </style>
 </head>
 <body>
 
-    <!-- Left Sidebar Menu (Matches Screenshot Structure) -->
+    <div id="toast">Affiliate Link Copied!</div>
+
+    <!-- Side Navigation Menu -->
     <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMenu()"></div>
     <div class="sidebar" id="sidebar">
         <ul class="sidebar-menu">
-            <li><a href="#" id="menu-courses" class="active-menu" onclick="switchTab('courses', this)"><i class="fa-solid fa-book-open"></i> My Courses</a></li>
-            <li><a href="#" id="menu-dashboard" onclick="switchTab('home', this)"><i class="fa-solid fa-house"></i> Dashboard</a></li>
-            <li><a href="#" onclick="alert('Profile Settings')"><i class="fa-solid fa-user"></i> Profile</a></li>
-            <li><a href="#" onclick="alert('KYC Verification Status: Approved')"><i class="fa-solid fa-id-card"></i> KYC</a></li>
-            <li><a href="#" onclick="alert('Upgrade Package Available')"><i class="fa-solid fa-arrow-up"></i> Upgrade</a></li>
-            <li><a href="#" onclick="copyLink()"><i class="fa-solid fa-link"></i> Affiliate Link</a></li>
-            <li><a href="#" id="menu-leaderboard" onclick="switchTab('leaderboard', this)"><i class="fa-solid fa-trophy"></i> Leaderboard</a></li>
-            <li><a href="#" onclick="alert('Payout Status: Up to date')"><i class="fa-solid fa-money-bill-wave"></i> Payouts</a></li>
-            <li><a href="#" onclick="alert('Withdrawal Request Sent!')"><i class="fa-solid fa-hand-holding-dollar"></i> Withdrawal Request</a></li>
-            <li><a href="#" onclick="alert('My Affiliates Count: 12')"><i class="fa-solid fa-users"></i> My Affiliates</a></li>
-            <li><a href="#" onclick="alert('Traffic Stats Loaded')"><i class="fa-solid fa-traffic-light"></i> Traffic</a></li>
-            <li><a href="#" onclick="alert('Opening Social Handles...')"><i class="fa-solid fa-share-nodes"></i> Social Media Handles</a></li>
+            <li><a href="#dashboard" onclick="navigateTo('dashboard', this)" class="active-menu"><i class="fa-solid fa-house"></i> Dashboard</a></li>
+            <li><a href="#courses" onclick="navigateTo('courses', this)"><i class="fa-solid fa-book-open"></i> My Courses</a></li>
+            <li><a href="#profile" onclick="navigateTo('profile', this)"><i class="fa-solid fa-user"></i> Profile</a></li>
+            <li><a href="#kyc" onclick="navigateTo('kyc', this)"><i class="fa-solid fa-id-card"></i> KYC Verification</a></li>
+            <li><a href="#affiliate" onclick="navigateTo('affiliate', this)"><i class="fa-solid fa-link"></i> Affiliate Link</a></li>
+            <li><a href="#leaderboard" onclick="navigateTo('leaderboard', this)"><i class="fa-solid fa-trophy"></i> Leaderboard</a></li>
+            <li><a href="#payouts" onclick="navigateTo('payouts', this)"><i class="fa-solid fa-money-bill-wave"></i> Payouts History</a></li>
+            <li><a href="#withdrawal" onclick="navigateTo('withdrawal', this)"><i class="fa-solid fa-hand-holding-dollar"></i> Withdrawal Request</a></li>
+            <li><a href="#affiliates-list" onclick="navigateTo('affiliates-list', this)"><i class="fa-solid fa-users"></i> My Affiliates</a></li>
             <li><a href="tel:+919876543210"><i class="fa-solid fa-phone"></i> Support No.</a></li>
         </ul>
     </div>
 
-    <!-- Top Navigation Bar -->
+    <!-- Header Navbar -->
     <nav class="navbar">
         <div class="logo-container">
             <div>
@@ -101,23 +101,21 @@
             </div>
         </div>
         <div class="nav-right">
-            <div class="user-avatar-top">
-                <i class="fa-solid fa-user"></i>
-            </div>
+            <div class="user-avatar-top"><i class="fa-solid fa-user"></i></div>
             <i class="fa-solid fa-bars menu-trigger" onclick="toggleMenu()"></i>
         </div>
     </nav>
 
     <div class="container">
 
-        <!-- TAB 1: DASHBOARD / HOME -->
-        <div id="tab-home" class="tab-content">
+        <!-- PAGE 1: DASHBOARD -->
+        <div id="page-dashboard" class="tab-content active">
             <div class="profile-card">
-                <span class="package-badge" id="userPackage">Master Package</span>
+                <span class="package-badge">Master Package</span>
                 <div class="profile-img"><i class="fa-solid fa-user"></i></div>
                 <div class="user-details">
-                    <h2 id="userName">|| SHUBHY ||</h2>
-                    <div class="user-id">User ID : <span id="userId">GS019023</span></div>
+                    <h2>|| SHUBHY ||</h2>
+                    <div class="user-id">User ID : GS019023</div>
                 </div>
             </div>
 
@@ -129,48 +127,89 @@
             </div>
         </div>
 
-        <!-- TAB 2: MY COURSES (Default View as per screenshot) -->
-        <div id="tab-courses" class="tab-content active">
+        <!-- PAGE 2: MY COURSES -->
+        <div id="page-courses" class="tab-content">
             <div class="course-card">
-                <div class="course-banner">
-                    <h2>BASIC COURSE</h2>
-                    <p style="font-size:11px; opacity:0.8;">Learn From Basic to Advance</p>
-                </div>
+                <div class="course-banner"><h2>BASIC COURSE</h2></div>
                 <div class="course-body">
-                    <div class="progress-bar-bg">
-                        <div class="progress-bar-fill"></div>
-                    </div>
-                    <div class="progress-text">9% Completed</div>
-                    <div class="course-title">BASIC COURSE</div>
-                    <button class="btn-continue" onclick="alert('Starting Course Video...')">Continue Learning</button>
+                    <p style="font-size:12px; color:#64748b; margin-bottom:10px;">Progress: 9% Completed</p>
+                    <button class="btn-continue">Continue Learning</button>
                 </div>
             </div>
-
             <div class="course-card">
-                <div class="course-banner" style="background:#0284c7;">
-                    <h2>LEAD GENERATION</h2>
-                    <p style="font-size:11px; opacity:0.8;">Master Lead Generation Skills</p>
-                </div>
+                <div class="course-banner" style="background:#0284c7;"><h2>LEAD GENERATION</h2></div>
                 <div class="course-body">
-                    <div class="progress-bar-bg">
-                        <div class="progress-bar-fill" style="width: 0%;"></div>
-                    </div>
-                    <div class="progress-text">0% Completed</div>
-                    <div class="course-title">LEAD GENERATION COURSE</div>
-                    <button class="btn-continue" onclick="alert('Starting Lead Generation Video...')">Start Learning</button>
+                    <p style="font-size:12px; color:#64748b; margin-bottom:10px;">Progress: 0% Completed</p>
+                    <button class="btn-continue">Start Learning</button>
                 </div>
             </div>
         </div>
 
-        <!-- TAB 3: LEADERBOARD -->
-        <div id="tab-leaderboard" class="tab-content">
-            <h3 style="margin-bottom: 12px; color: #0f172a; font-size: 16px;">🏆 Top Performers</h3>
-            <div class="leaderboard-list">
-                <div class="leader-item"><span class="rank rank-1">#1</span><div class="leader-info"><div class="leader-name">Aman Sharma</div><div style="font-size:11px; color:#64748b;">Master Package</div></div><div class="leader-earnings">₹1,45,000</div></div>
-                <div class="leader-item"><span class="rank rank-2">#2</span><div class="leader-info"><div class="leader-name">Priya Patel</div><div style="font-size:11px; color:#64748b;">Master Package</div></div><div class="leader-earnings">₹98,500</div></div>
-                <div class="leader-item"><span class="rank rank-3">#3</span><div class="leader-info"><div class="leader-name">Rahul Verma</div><div style="font-size:11px; color:#64748b;">Gold Package</div></div><div class="leader-earnings">₹64,200</div></div>
-                <div class="leader-item"><span class="rank">#4</span><div class="leader-info"><div class="leader-name">Bhagyashree</div><div style="font-size:11px; color:#64748b;">Gold Package</div></div><div class="leader-earnings">₹42,000</div></div>
-                <div class="leader-item"><span class="rank">#5</span><div class="leader-info"><div class="leader-name">|| SHUBHY ||</div><div style="font-size:11px; color:#64748b;">Master Package</div></div><div class="leader-earnings">₹380</div></div>
+        <!-- PAGE 3: PROFILE -->
+        <div id="page-profile" class="tab-content">
+            <div class="info-box">
+                <h3>My Profile</h3>
+                <p><strong>Name:</strong> || SHUBHY ||</p>
+                <p style="margin-top:6px;"><strong>User ID:</strong> GS019023</p>
+                <p style="margin-top:6px;"><strong>Package:</strong> Master Package</p>
+                <p style="margin-top:6px;"><strong>Status:</strong> Active Member</p>
+            </div>
+        </div>
+
+        <!-- PAGE 4: KYC -->
+        <div id="page-kyc" class="tab-content">
+            <div class="info-box">
+                <h3>KYC Status</h3>
+                <div style="background:#dcfce7; color:#15803d; padding:10px; border-radius:6px; font-weight:700; font-size:13px; text-align:center;">
+                    ✓ KYC VERIFIED
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 5: AFFILIATE LINK -->
+        <div id="page-affiliate" class="tab-content">
+            <div class="info-box">
+                <h3>Your Referral Link</h3>
+                <p style="font-size:12px; color:#64748b;">Share this link to earn commission on every sale:</p>
+                <div class="copy-box">
+                    <input type="text" id="affLink" value="https://growthskool.org/ref/GS019023" class="copy-input" readonly>
+                    <button class="btn-copy" onclick="copyAffiliateLink()">Copy</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 6: LEADERBOARD -->
+        <div id="page-leaderboard" class="tab-content">
+            <div class="info-box">
+                <h3>Top Earners</h3>
+                <p>1. Aman Sharma - ₹1,45,000</p>
+                <p style="margin-top:8px;">2. Priya Patel - ₹98,500</p>
+                <p style="margin-top:8px;">3. Rahul Verma - ₹64,200</p>
+            </div>
+        </div>
+
+        <!-- PAGE 7: PAYOUTS -->
+        <div id="page-payouts" class="tab-content">
+            <div class="info-box">
+                <h3>Payout History</h3>
+                <p style="font-size:13px; color:#16a34a; font-weight:700;">Last Payout: ₹380 (Transferred)</p>
+            </div>
+        </div>
+
+        <!-- PAGE 8: WITHDRAWAL -->
+        <div id="page-withdrawal" class="tab-content">
+            <div class="info-box">
+                <h3>Withdrawal Request</h3>
+                <p style="font-size:13px; color:#64748b; margin-bottom:10px;">Available Balance: ₹0</p>
+                <button class="btn-continue" style="background:#94a3b8;" disabled>Insufficient Balance</button>
+            </div>
+        </div>
+
+        <!-- PAGE 9: MY AFFILIATES -->
+        <div id="page-affiliates-list" class="tab-content">
+            <div class="info-box">
+                <h3>My Team</h3>
+                <p style="font-size:13px; color:#64748b;">Total Affiliates: 12 Active Members</p>
             </div>
         </div>
 
@@ -189,23 +228,48 @@
             }
         }
 
-        function switchTab(tabName, element) {
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.sidebar-menu a').forEach(item => item.classList.remove('active-menu'));
+        function navigateTo(pageId, element) {
+            // Hide all pages
+            document.querySelectorAll('.tab-content').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active-menu'));
 
-            document.getElementById('tab-' + tabName).classList.add('active');
+            // Show selected page
+            const targetPage = document.getElementById('page-' + pageId);
+            if(targetPage) {
+                targetPage.classList.add('active');
+            }
+
             if(element) {
                 element.classList.add('active-menu');
             }
-            
-            // Drawer Close
+
+            // Close Drawer
             document.getElementById("sidebar").classList.remove("active");
             document.getElementById("sidebarOverlay").style.display = "none";
         }
 
-        function copyLink() {
-            navigator.clipboard.writeText("https://growthskool.org/ref/GS019023");
-            alert("Affiliate Link Copied!");
+        // Handle URL Hash (so reload doesn't reset page)
+        function checkHashNavigation() {
+            const hash = window.location.hash.replace('#', '');
+            if(hash) {
+                const menuItem = document.querySelector(`.sidebar-menu a[href="#${hash}"]`);
+                navigateTo(hash, menuItem);
+            }
+        }
+
+        window.addEventListener('load', checkHashNavigation);
+        window.addEventListener('hashchange', checkHashNavigation);
+
+        function copyAffiliateLink() {
+            const copyText = document.getElementById("affLink");
+            copyText.select();
+            copyText.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(copyText.value);
+
+            // Show Toast
+            const toast = document.getElementById("toast");
+            toast.className = "show";
+            setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
         }
     </script>
 </body>
