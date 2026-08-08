@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Growth Skool</title>
+    <style>
+        * { box-sizing: border-box; font-family: sans-serif; margin: 0; padding: 0; }
+        body { background: #f4f7fe; padding: 20px; }
+        .reg-container { max-width: 400px; margin: auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h2 { color: #0284c7; text-align: center; margin-bottom: 20px; }
+        .input-group { margin-bottom: 15px; }
+        label { display: block; font-size: 13px; font-weight: bold; margin-bottom: 5px; }
+        input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; outline: none; }
+        button { width: 100%; padding: 14px; background: #0284c7; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="reg-container">
+    <h2>Course Registration</h2>
+    <div class="input-group">
+        <label>Full Name</label>
+        <input type="text" id="fullName" placeholder="Enter your name">
+    </div>
+    <div class="input-group">
+        <label>Mobile Number</label>
+        <input type="tel" id="phone" placeholder="10-digit number">
+    </div>
+    <div class="input-group">
+        <label>Select Package</label>
+        <select id="package">
+            <option value="Gold Package">Gold Package - ₹1999</option>
+            <option value="Master Package">Master Package - ₹3999</option>
+        </select>
+    </div>
+    <div class="input-group">
+        <label>Referral Code (Optional)</label>
+        <input type="text" id="referral" placeholder="Enter referral code">
+    </div>
+    <button onclick="payAndRegister()">Pay & Register</button>
+</div>
+
+<script>
+    function payAndRegister() {
+        const name = document.getElementById("fullName").value;
+        const phone = document.getElementById("phone").value;
+        const pkg = document.getElementById("package").value;
+
+        if(name && phone.length === 10) {
+            // LocalStorage me user data save kar rahe hain
+            const userData = { name: name, phone: phone, package: pkg, profit: 0 };
+            localStorage.setItem("growthSkoolUser", JSON.stringify(userData));
+            
+            alert("Payment Success! Redirecting to Dashboard...");
+            window.location.href = "dashboard.html"; 
+        } else {
+            alert("Please enter valid name and 10-digit number!");
+        }
+    }
+</script>
+
+</body>
+</html>
