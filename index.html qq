@@ -1,0 +1,18 @@
+<div class="login-box">
+  <h2>GrowthSkool Login</h2>
+
+  <!-- Mobile Number Input -->
+  <form id="phoneForm">
+    <input type="tel" id="phoneNumber" placeholder="+91 9876543210" required />
+    <!-- Firebase Recaptcha Container -->
+    <div id="recaptcha-container"></div>
+    <button type="button" id="sendOtpBtn">Send OTP</button>
+  </form>
+
+  <!-- OTP Input (Initial level par hide rahega) -->
+  <form id="otpForm" style="display: none; margin-top: 15px;">
+    <input type="text" id="otpCode" placeholder="Enter 6-digit OTP" required />
+    <button type="button" id="verifyOtpBtn">Verify & Login</button>
+  </form>
+</div>
+  
