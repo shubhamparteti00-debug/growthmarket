@@ -1,1 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GrowthSkool - Portal</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        body { background: #f8fafc; color: #1e293b; padding-bottom: 20px; }
+        
+        .auth-container { max-width: 400px; margin: 50px auto; padding: 20px; background: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .auth-container h2 { margin-bottom: 15px; color: #1d4ed8; text-align: center; }
+        .input-group { margin-bottom: 12px; }
+        .input-group input { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; }
+        .btn-main { width: 100%; padding: 10px; background: #2563eb; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 5px; }
+
+        .dashboard-container { display: none; max-width: 480px; margin: 15px auto; padding: 0 15px; }
+        .navbar { background: #ffffff; padding: 12px 18px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+        .logo-text { font-size: 20px; font-weight: 800; color: #1d4ed8; }
+        
+        .profile-card { background: white; padding: 20px; border-radius: 12px; text-align: center; border: 1px solid #e2e8f0; margin-top: 15px; }
+        .avatar-img { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; border: 2px solid #2563eb; }
+        .file-upload-btn { margin: 10px 0; font-size: 12px; }
+    </style>
+</head>
+<body>
+
+    <!-- AUTH SECTION (Login/Signup) -->
+    <div id="authSection" class="auth-container">
+        <h2 id="authTitle">GrowthSkool Login</h2>
+        <div class="input-group"><input type="email" id="email" placeholder="Email Address"></div>
+        <div class="input-group"><input type="password" id="password" placeholder="Password"></div>
+        <button class="btn-main" onclick="handleAuth()">Submit</button>
+        <p style="text-align:center; margin-top:10px; font-size:12px; color:#64748b; cursor:pointer;" onclick="toggleAuthMode()">
+            <span id="toggleText">New user? Sign Up here</span>
+        </p>
+    </div>
+
+    <!-- MAIN DASHBOARD (Log in karne ke baad dikhega) -->
+    <div id="dashboardSection" class="dashboard-container">
+        <nav class="navbar">
+            <div class="logo-text">GrowthSkool</div>
+            <button onclick="logout()" style="padding: 5px 10px; background: #ef4444; color: white; border: none; border-radius: 4px; cursor: pointer;">Logout</button>
+        </nav>
+
+        <div class="profile-card">
+            <img id="userAvatar" src="https://via.placeholder.com/90" class="avatar-img" alt="Profile Photo">
+            <br>
+            <input type="file" id="photoInput" accept="image/*" class="file-upload-btn" onchange="uploadPhoto()">
+            <h2 id="userName">User</h2>
+            <p id="userEmail" style="color: #64748b; font-size: 13px;"></p>
+            <p style="margin-top: 8px;"><span style="background:#2563eb; color:white; padding:3px 8px; border-radius:4px; font-size:11px;" id="userPkg">Master Package</span></p>
+        </div>
+    </div>
+
+    <script>
+        // Supabase Init
+        const SUPABASE_URL = "https://shubhamparteti00-debug.supabase.co"; // Apne Supabase URL se badlein
+        const SUPABASE_KEY = "sb_publishable_ZOsLVThhl6JZK0PtJH0vNA_KQ3I6HTF";
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        let isSignUp = false;
+
+        function toggleAuthMode() {
+            isSignUp = !isSignUp;
+            document.getElementById('authTitle').innerText = isSignUp ? "GrowthSkool Sign Up" : "GrowthSkool Login";
+            document.getElementById('toggleText').innerText = isSignUp ? "Already have an account? Login" : "New user? Sign Up here";
+        }
+
+        async function handleAuth() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            if(!email || !password) return alert("Email and password fill karein!");
+
+            if(isSignUp) {
+                const { data, error } = await supabase.auth.signUp({ email, password });
+                if(error) alert(error.message);
+                else alert("Signup successful! Ab login karein.");
+            } else {
+                const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+                if(error) alert(error.message);
+                else loadDashboard();
+            }
+        }
+
+        async function loadDashboard() {
+            const { data: { user } } = await supabase.auth.getUser();
+            if(user) {
+                document.getElementById('authSection').style.display = 'none';
+                document.getElementById('dashboardSection').style.display = 'block';
+                document.getElementById('userEmail').innerText = user.email;
+                document.getElementById('userName').innerText = user.email.split('@')[0].toUpperCase();
+            }
+        }
+
+        async function uploadPhoto() {
+            const fileInput = document.getElementById('photoInput');
+            if(!fileInput.files.length) return;
+
+            const file = fileInput.files[0];
+            const { data: { user } } = await supabase.auth.getUser();
+            const filePath = `avatars/${user.id}_${file.name}`;
+
+            let { error } = await supabase.storage.from('avatars').upload(filePath, file);
+            if(error) return alert("Upload failed: " + error.message);
+
+            const { data } = supabase.storage.from('avatars').getPublicUrl(filePath);
+            document.getElementById('userAvatar').src = data.publicUrl;
+            alert("Photo Updated!");
+        }
+
+        async function logout() {
+            await supabase.auth.signOut();
+            location.reload();
+        }
+
+        // Check active session on load
+        window.onload = loadDashboard;
+    </script>
+</body>
+  </html>
 
